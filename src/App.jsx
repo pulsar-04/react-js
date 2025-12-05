@@ -8,6 +8,7 @@ import Login from "./components/login/Login";
 import Register from "./components/register/Register";
 import Logout from "./components/logout/Logout";
 import Create from "./components/create/Create"; 
+import Catalog from "./components/catalog/Catalog";
 import "./App.css";
 
 function App() {
@@ -23,6 +24,7 @@ function App() {
                     <Route path="/register" element={<Register />} />
                     <Route path="/logout" element={<Logout />} />
                     <Route path="/create" element={<Create />} /> 
+                    <Route path="/catalog" element={<Catalog />} />
                 </Routes>
             </main>
 
