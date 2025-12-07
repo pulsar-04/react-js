@@ -9,6 +9,8 @@ import Register from "./components/register/Register";
 import Logout from "./components/logout/Logout";
 import Create from "./components/create/Create"; 
 import Catalog from "./components/catalog/Catalog";
+import Details from "./components/details/Details";
+import Edit from "./components/edit/Edit";
 import "./App.css";
 
 function App() {
@@ -25,6 +27,8 @@ function App() {
                     <Route path="/logout" element={<Logout />} />
                     <Route path="/create" element={<Create />} /> 
                     <Route path="/catalog" element={<Catalog />} />
+                    <Route path="/catalog/:carId" element={<Details />} />
+                    <Route path="/edit/:carId" element={<Edit />} />
                 </Routes>
             </main>
 
