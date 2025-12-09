@@ -1,45 +1,40 @@
-import { createContext, useState } from "react";
+import { createContext } from "react"; 
 import { useNavigate } from 'react-router-dom';
 import * as authService from '../services/authService';
+import { useLocalStorage } from "../hooks/useLocalStorage"; 
 
 const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
     const navigate = useNavigate();
-    const [auth, setAuth] = useState({});
+    
+    
+    
+    const [auth, setAuth] = useLocalStorage('auth', {});
 
     const loginSubmitHandler = async (values) => {
         const result = await authService.login(values.email, values.password);
 
-        setAuth(result);
-        localStorage.setItem('accessToken', result.accessToken);
+        setAuth(result); 
         navigate('/');
     };
 
     const registerSubmitHandler = async (values) => {
-        // 1. Проверка дали паролите съвпадат
+        
         if (values.password !== values.confirmPassword) {
             alert("Passwords don't match!");
-            return; // Спираме изпълнението дотук
+            return;
         }
 
-        try {
-            // 2. Опитваме да регистрираме потребителя
-            const result = await authService.register(values.email, values.password);
+        const result = await authService.register(values.email, values.password);
 
-            setAuth(result);
-            localStorage.setItem('accessToken', result.accessToken);
-            navigate('/');
-        } catch (error) {
-            // 3. Ако сървърът върне грешка (напр. "User already exists")
-            console.log("Register error:", error);
-            alert(error.message || "Registration failed! Check if email is already taken.");
-        }
+        setAuth(result); 
+        navigate('/');
     };
 
     const logoutHandler = () => {
-        setAuth({});
-        localStorage.removeItem('accessToken');
+        setAuth({}); 
+        localStorage.removeItem('auth'); 
     };
 
     const values = {

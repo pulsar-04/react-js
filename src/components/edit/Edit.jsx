@@ -1,11 +1,14 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useContext } from "react";
 import { useParams, useNavigate } from "react-router-dom";
+
 import * as carService from '../../services/carService';
-import { useForm } from "../../hooks/useForm";
+import { useForm } from "../../hooks/useForm"; 
+import AuthContext from "../../contexts/AuthContext";  
 
 export default function Edit() {
     const navigate = useNavigate();
     const { carId } = useParams();
+    const { userId } = useContext(AuthContext); 
     const [car, setCar] = useState({
         brand: '',
         model: '',
@@ -17,20 +20,31 @@ export default function Edit() {
     useEffect(() => {
         carService.getOne(carId)
             .then(result => {
+                
+                
+                if (result._ownerId !== userId) {
+                    
+                    navigate('/catalog'); 
+                }
+                
                 setCar(result);
+            })
+            .catch(err => {
+                console.log(err);
+                
+                navigate('/catalog');
             });
-    }, [carId]);
+    }, [carId, userId]); 
 
     const editCarSubmitHandler = async (values) => {
         try {
             await carService.update(carId, values);
-            navigate('/catalog/' + carId); 
+            navigate('/catalog/' + carId);
         } catch (err) {
             console.log(err);
         }
     };
-    
-    
+
     const onChange = (e) => {
         setCar(state => ({
             ...state,

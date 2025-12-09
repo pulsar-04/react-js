@@ -36,11 +36,14 @@ export const register = async (email, password) => {
     return result;
 };
 
-export const logout = async (accessToken) => {
+export const logout = async () => {
     try {
+        
+        const auth = JSON.parse(localStorage.getItem('auth'));
+
         const response = await fetch(`${baseUrl}/logout`, {
             headers: {
-                'X-Authorization': accessToken
+                'X-Authorization': auth.accessToken
             }
         });
 
@@ -48,4 +51,4 @@ export const logout = async (accessToken) => {
     } catch (error) {
         console.log(error);
     }
-};  
+};

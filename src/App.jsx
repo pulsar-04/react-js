@@ -7,10 +7,12 @@ import Home from "./components/home/Home";
 import Login from "./components/login/Login";
 import Register from "./components/register/Register";
 import Logout from "./components/logout/Logout";
-import Create from "./components/create/Create"; 
+import Create from "./components/create/Create";
 import Catalog from "./components/catalog/Catalog";
 import Details from "./components/details/Details";
 import Edit from "./components/edit/Edit";
+import RouteGuard from "./components/common/RouteGuard";
+import GuestGuard from "./components/common/GuestGuard"; 
 import "./App.css";
 
 function App() {
@@ -21,14 +23,23 @@ function App() {
 
             <main id="main-content">
                 <Routes>
+                    {/* 1. public pages for everyone */}
                     <Route path="/" element={<Home />} />
-                    <Route path="/login" element={<Login />} />
-                    <Route path="/register" element={<Register />} />
-                    <Route path="/logout" element={<Logout />} />
-                    <Route path="/create" element={<Create />} /> 
                     <Route path="/catalog" element={<Catalog />} />
                     <Route path="/catalog/:carId" element={<Details />} />
-                    <Route path="/edit/:carId" element={<Edit />} />
+
+                    {/* 2. only for guests */}
+                    <Route element={<GuestGuard />}>
+                        <Route path="/login" element={<Login />} />
+                        <Route path="/register" element={<Register />} />
+                    </Route>
+
+                    {/* 3. only for logged users */}
+                    <Route element={<RouteGuard />}>
+                        <Route path="/create" element={<Create />} />
+                        <Route path="/edit/:carId" element={<Edit />} />
+                        <Route path="/logout" element={<Logout />} />
+                    </Route>
                 </Routes>
             </main>
 

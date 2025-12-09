@@ -7,13 +7,9 @@ export default function Create() {
 
     const createCarSubmitHandler = async (values) => {
         try {
-            
             await carService.create(values);
-            
-            
             navigate('/catalog');
         } catch (error) {
-            
             console.log(error);
         }
     }
