@@ -1,22 +1,50 @@
-import { useContext } from "react";
+import { useContext, useState } from "react"; 
 import AuthContext from "../../contexts/AuthContext";
 import { useForm } from "../../hooks/useForm";
 
 export default function Register() {
     const { registerSubmitHandler } = useContext(AuthContext);
-    
+    const [error, setError] = useState(''); 
+
+    const registerHandler = async (values) => {
+        
+        if (values.email === '' || values.password === '' || values.confirmPassword === '') {
+            setError('All fields are required!');
+            return;
+        }
+
+        
+        if (values.password !== values.confirmPassword) {
+            setError("Passwords don't match!");
+            return;
+        }
+
+        try {
+            
+            await registerSubmitHandler(values);
+        } catch (err) {
+            
+            setError(err.message || 'Registration failed!');
+            console.log(err);
+        }
+    };
+
     const { values, changeHandler, onSubmit } = useForm({
         email: '',
         password: '',
         confirmPassword: '',
-    }, registerSubmitHandler);
+    }, registerHandler); 
 
     return (
         <section id="register-page" className="auth">
-            {/* onSubmit={onSubmit} */}
             <form id="register" onSubmit={onSubmit}>
                 <div className="container">
                     <h1>Register</h1>
+
+                    
+                    {error && (
+                        <p className="error-msg">{error}</p>
+                    )}
 
                     <label htmlFor="email">Email:</label>
                     <input 

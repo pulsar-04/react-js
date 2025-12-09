@@ -313,3 +313,16 @@ textarea {
     font-size: 1.2rem;
 }
 /* end of the like button style */
+
+/* Error Handling */
+.error-msg {
+    margin: 10px 0;
+    padding: 10px;
+    border-radius: 5px;
+    background-color: #ffe0e0;
+    color: #d32f2f;
+    border: 1px solid #d32f2f;
+    text-align: center;
+    font-weight: bold;
+    display: block;
+}

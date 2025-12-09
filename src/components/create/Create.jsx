@@ -1,16 +1,33 @@
+import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useForm } from '../../hooks/useForm';
 import * as carService from '../../services/carService';
 
 export default function Create() {
     const navigate = useNavigate();
+    const [error, setError] = useState(''); 
 
     const createCarSubmitHandler = async (values) => {
+        
+        if (Object.values(values).some(x => x === '')) {
+            setError('All fields are required!');
+            return;
+        }
+
+        
+        if (Number(values.price) < 0) {
+            setError('Price cannot be negative!');
+            return;
+        }
+
+        
+
         try {
             await carService.create(values);
             navigate('/catalog');
-        } catch (error) {
-            console.log(error);
+        } catch (err) {
+            setError(err.message);
+            console.log(err);
         }
     }
 
@@ -27,6 +44,11 @@ export default function Create() {
             <form id="create" onSubmit={onSubmit}>
                 <div className="container">
                     <h1>Create Car Offer</h1>
+
+                    
+                    {error && (
+                        <p className="error-msg">{error}</p>
+                    )}
 
                     <label htmlFor="brand">Brand:</label>
                     <input type="text" id="brand" name="brand" placeholder="BMW" value={values.brand} onChange={changeHandler} />
