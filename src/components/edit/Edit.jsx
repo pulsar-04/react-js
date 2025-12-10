@@ -2,13 +2,14 @@ import { useEffect, useState, useContext } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 
 import * as carService from '../../services/carService';
-import { useForm } from "../../hooks/useForm"; 
-import AuthContext from "../../contexts/AuthContext";  
+import AuthContext from "../../contexts/AuthContext";
 
 export default function Edit() {
     const navigate = useNavigate();
     const { carId } = useParams();
-    const { userId } = useContext(AuthContext); 
+    const { userId } = useContext(AuthContext);
+    const [error, setError] = useState(''); 
+    
     const [car, setCar] = useState({
         brand: '',
         model: '',
@@ -21,27 +22,25 @@ export default function Edit() {
         carService.getOne(carId)
             .then(result => {
                 
-                
                 if (result._ownerId !== userId) {
-                    
                     navigate('/catalog'); 
                 }
-                
                 setCar(result);
             })
             .catch(err => {
                 console.log(err);
-                
                 navigate('/catalog');
             });
-    }, [carId, userId]); 
+    }, [carId, userId]);
 
     const editCarSubmitHandler = async (values) => {
         try {
             await carService.update(carId, values);
             navigate('/catalog/' + carId);
         } catch (err) {
+            
             console.log(err);
+            setError(err.message);
         }
     };
 
@@ -54,6 +53,23 @@ export default function Edit() {
 
     const onSubmit = (e) => {
         e.preventDefault();
+
+        
+
+        
+        
+        if (car.brand === '' || car.model === '' || car.imageUrl === '' || car.price === '' || car.description === '') {
+            setError('All fields are required!');
+            return;
+        }
+
+        
+        if (Number(car.price) < 0) {
+            setError('Price cannot be negative!');
+            return;
+        }
+        
+
         editCarSubmitHandler(car);
     };
 
@@ -62,6 +78,11 @@ export default function Edit() {
             <form id="edit" onSubmit={onSubmit}>
                 <div className="container">
                     <h1>Edit Car</h1>
+
+                    
+                    {error && (
+                        <p className="error-msg">{error}</p>
+                    )}
 
                     <label htmlFor="brand">Brand:</label>
                     <input type="text" id="brand" name="brand" value={car.brand} onChange={onChange} />

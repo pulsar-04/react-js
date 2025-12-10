@@ -13,6 +13,8 @@ import Details from "./components/details/Details";
 import Edit from "./components/edit/Edit";
 import RouteGuard from "./components/common/RouteGuard";
 import GuestGuard from "./components/common/GuestGuard"; 
+import Profile from "./components/profile/Profile";
+import Search from "./components/search/Search";
 import "./App.css";
 
 function App() {
@@ -27,6 +29,7 @@ function App() {
                     <Route path="/" element={<Home />} />
                     <Route path="/catalog" element={<Catalog />} />
                     <Route path="/catalog/:carId" element={<Details />} />
+                    <Route path="/search" element={<Search />} />
 
                     {/* 2. only for guests */}
                     <Route element={<GuestGuard />}>
@@ -36,6 +39,7 @@ function App() {
 
                     {/* 3. only for logged users */}
                     <Route element={<RouteGuard />}>
+                        <Route path="/profile" element={<Profile />} />
                         <Route path="/create" element={<Create />} />
                         <Route path="/edit/:carId" element={<Edit />} />
                         <Route path="/logout" element={<Logout />} />

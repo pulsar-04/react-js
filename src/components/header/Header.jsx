@@ -11,12 +11,14 @@ export default function Header() {
 
             <nav>
                 <Link to="/catalog">All Cars</Link>
+                <Link to="/search">Search</Link>
 
                 {isAuthenticated && (
                     <div id="user">
                         <Link to="/create">Sell a Car</Link>
                         <Link to="/logout">Logout</Link>
-                        <span>| Welcome, {username}</span>
+                        <Link to="/profile">My Profile</Link>
+
                     </div>
                 )}
 

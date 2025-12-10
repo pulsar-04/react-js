@@ -59,3 +59,20 @@ export const update = async (carId, carData) => {
 
     return result;
 };
+
+
+export const getMyCars = async (userId) => {
+    const query = encodeURIComponent(`_ownerId="${userId}"`);
+    
+    const response = await fetch(`${baseUrl}?where=${query}&sortBy=_createdOn%20desc`);
+    
+    return await response.json();
+};
+
+export const search = async (searchText) => {
+    
+    const query = encodeURIComponent(`brand LIKE "${searchText}"`);
+    
+    const response = await fetch(`${baseUrl}?where=${query}`);
+    return await response.json();
+};
