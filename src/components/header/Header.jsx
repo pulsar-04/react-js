@@ -12,6 +12,7 @@ export default function Header() {
             <nav>
                 <Link to="/catalog">All Cars</Link>
                 <Link to="/search">Search</Link>
+                <Link to="/top-rated">Top Rated</Link>
 
                 {isAuthenticated && (
                     <div id="user">

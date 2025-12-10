@@ -15,6 +15,7 @@ import RouteGuard from "./components/common/RouteGuard";
 import GuestGuard from "./components/common/GuestGuard"; 
 import Profile from "./components/profile/Profile";
 import Search from "./components/search/Search";
+import TopRated from "./components/top-rated/TopRated";
 import "./App.css";
 
 function App() {
@@ -30,6 +31,7 @@ function App() {
                     <Route path="/catalog" element={<Catalog />} />
                     <Route path="/catalog/:carId" element={<Details />} />
                     <Route path="/search" element={<Search />} />
+                    <Route path="/top-rated" element={<TopRated />} />
 
                     {/* 2. only for guests */}
                     <Route element={<GuestGuard />}>

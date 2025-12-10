@@ -23,3 +23,9 @@ export const getCarLikes = async (carId) => {
     const response = await fetch(`${baseUrl}?where=${query}`);
     return await response.json();
 };
+
+// Взима абсолютно всички лайкове в системата
+export const getAllLikes = async () => {
+    const response = await fetch(baseUrl);
+    return await response.json();
+};
